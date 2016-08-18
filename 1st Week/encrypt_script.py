@@ -28,7 +28,7 @@ def main():
     key = random(1024)
     ciphertexts = [encrypt(key, msg) for msg in MSGS]
 
-def only_letters(a):
+def display_letters(a):
     w_a = ''
     for x in a:
         if 65<= ord(x) and ord(x) <= 90:
@@ -38,6 +38,7 @@ def only_letters(a):
         else:
             w_a += ' '
     print w_a
+    return w_a
 
 def test_keys(cyphers,messages):
     keys = []
@@ -56,18 +57,17 @@ def test_keys(cyphers,messages):
                 final_key += ' '
 
 def test_key(cypher,message):
-
-    key = strxor(cypher,message)
+    key = strxor(cypher.decode('hex'),message)
+    key_hex = key.encode('hex')
+    key_ascii = key_hex.decode('hex')
     final_key=''
-
-    for x in key:
+    for x in key_ascii:
         if 65<= ord(x) and ord(x) <= 90:
             final_key += x
         elif 97<= ord(x) and ord(x) <= 122:
             final_key += x
         else:
             final_key += ' '
-
     print final_key
 
 

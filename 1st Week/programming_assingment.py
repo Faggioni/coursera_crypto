@@ -16,7 +16,12 @@ Let us see what goes wrong when a stream cipher key is used more than once. Belo
 
 Hint: XOR the ciphertexts together, and consider what happens when a space is XORed with a 
 character in [a-zA-Z].
+Solution = 'The secret message is: When using a stream cipher, never use the key more than once'
 
+Notes:
+- The secret message it is the shortest text
+- From each character take the most repetitive
+- The key is at least the size of the bigger text
 """
 
 import encrypt_script as en
@@ -32,76 +37,17 @@ msg8 = '315c4eeaa8b5f8bffd11155ea506b56041c6a00c8a08854dd21a4bbde54ce56801d943ba
 msg9 = '271946f9bbb2aeadec111841a81abc300ecaa01bd8069d5cc91005e9fe4aad6e04d513e96d99de2569bc5e50eeeca709b50a8a987f4264edb6896fb537d0a716132ddc938fb0f836480e06ed0fcd6e9759f40462f9cf57f4564186a2c1778f1543efa270bda5e933421cbe88a4a52222190f471e9bd15f652b653b7071aec59a2705081ffe72651d08f822c9ed6d76e48b63ab15d0208573a7eef027'
 msg10 = '466d06ece998b7a2fb1d464fed2ced7641ddaa3cc31c9941cf110abbf409ed39598005b3399ccfafb61d0315fca0a314be138a9f32503bedac8067f03adbf3575c3b8edc9ba7f537530541ab0f9f3cd04ff50d66f1d559ba520e89a2cb2a83'
 msg11 = '32510ba9babebbbefd001547a810e67149caee11d945cd7fc81a05e9f85aac650e9052ba6a8cd8257bf14d13e6f0a803b54fde9e77472dbff89d71b57bddef121336cb85ccb8f3315f4b52e301d16e9f52f904'
-
-cyphers = [msg1,msg2,msg3,msg4,msg5,msg6,msg7,msg8,msg9,msg10,msg11]
-
-#Testing some words
-"""
-str1 = 'ass  '
-str2 = 'a bc '
-str3 = 'tnt'
-k1 = ' ASD ASDSADASDADADSA'
-c1 = en.encrypt(str1,k1)
-c2 = en.encrypt(str2,k1)
-c3 = en.encrypt(str3,k1)
-test = en.strxor(c1,c2)
-test_hex = test.encode('hex')
-test_f = test_hex.decode('hex')
-print test_f  
-test = en.strxor(c1,c3)
-test_hex = test.encode('hex')
-test_f = test_hex.decode('hex')
-print test_f
-"""
-"""
-print '---- Decoding and Enconding Test----'
-sol = en.strxor(msg1,msg11)
-sol_hex = sol.encode('hex')
-t = 'ass'
-a = '   '
-print en.strxor(t,a)
-
-print 'sol'
-print  sol
-print msg1
-print msg11
-print '----------------Resultados--------------------'
-print 'sol_hex'
-print sol_hex
-print 'sol_hex.decode'
-print sol_hex.decode('hex')
-"""
-i = 0
-key_length = 0
-min = ''
-for M in cyphers:
-    if key_length<len(M):
-        key_length = len(M)
-
-    if len(M) < min:
-        min = M
-
-key_length = key_length / 2
-print 'The Key is at least this large:' + str(key_length)
-print 'Min Lenght: ' + str(len(min))
-print '\n'
-
+ciphers = [msg1,msg2,msg3,msg4,msg5,msg6,msg7,msg8,msg9,msg10,msg11]
 
 messages = []
-#Working with Eleventh Message
-for M in cyphers:
-    #print msg11
-    #print M
-    c = en.strxor(M.decode('hex'),msg1.decode('hex'))
+#Working in the eleventh message
+for M in ciphers:
+    c = en.strxor(M.decode('hex'),msg11.decode('hex'))
     c_hex = c.encode('hex')
     c_ascii = c_hex.decode('hex')
-    #print '-----------------------'
-    #print 'XOR Hexadecimal: ' + c_hex + '\n'
-    #print 'ASCII:' + c_ascii +'\n'
-    #print len(c_ascii)
     messages.append(c_ascii)
 
 for x in messages:
-    print en.only_letters(x)
-print 'Key Test'
-en.test_key(cyphers[10],messages[10])
+    ascii_messages = en.display_letters(x)
+
+
